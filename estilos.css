@@ -1,0 +1,1623 @@
+/* =============================================================
+   TALLERCLICK - HOJA DE ESTILOS
+
+   El archivo está dividido por secciones numeradas.
+   Así puedes localizar más rápido cada parte del diseño.
+   ============================================================= */
+
+/* =============================================================
+   1. VARIABLES DE COLOR Y MEDIDAS
+
+   Una variable comienza con -- y permite reutilizar un valor.
+   Ejemplo: var(--color-acento) utiliza el rojo definido aquí.
+   ============================================================= */
+:root {
+  color-scheme: dark;
+
+  --color-fondo: #0a0c0b;
+  --color-panel: #121512;
+  --color-panel-secundario: #181c18;
+  --color-borde: #2a302a;
+  --color-texto: #f5f7f3;
+  --color-texto-secundario: #99a199;
+  --color-acento: #f00e0e;
+  --color-fondo-acento: #1a0e0e;
+  --color-error: #ff725f;
+
+  --radio-panel: 20px;
+  --sombra-panel: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
+
+/* =============================================================
+   2. REGLAS GENERALES
+   ============================================================= */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+/* =============================================================
+   3. BARRA SUPERIOR
+   ============================================================= */
+.barra-superior {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 12, 11, 0.94);
+  backdrop-filter: blur(18px);
+}
+
+.barra-superior__contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1180px;
+  min-height: 72px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.marca-sitio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.12rem;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.marca-sitio__logotipo {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 11px 11px 3px 11px;
+  background: var(--color-acento);
+  box-shadow: 0 0 0 5px rgba(240, 14, 14, 0.1);
+  color: #0a0c0b;
+  font-size: 1.15rem;
+  font-weight: 950;
+}
+
+.etiqueta-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 11px;
+  border: 1px solid var(--color-borde);
+  border-radius: 999px;
+  color: #cbd1ca;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.etiqueta-demo::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-acento);
+  box-shadow: 0 0 0 4px rgba(240, 14, 14, 0.14);
+  content: "";
+}
+
+/* =============================================================
+   4. CONTENIDO PRINCIPAL Y PRESENTACIÓN
+   ============================================================= */
+.contenido-principal {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 44px 0 72px;
+}
+
+.presentacion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.texto-superior {
+  margin: 0 0 8px;
+  color: var(--color-acento);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 780px;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
+
+.presentacion__descripcion {
+  max-width: 580px;
+  margin: 16px 0 0;
+  color: var(--color-texto-secundario);
+}
+
+.nota-tiempo {
+  min-width: max-content;
+  margin: 0;
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid var(--color-acento);
+  color: #cbd1ca;
+  font-size: 0.9rem;
+}
+
+/* =============================================================
+   5. DISTRIBUCIÓN DEL COTIZADOR
+
+   En pantallas grandes hay dos columnas:
+   formulario a la izquierda y resumen a la derecha.
+   ============================================================= */
+.area-cotizador {
+  display: grid;
+  grid-template-columns: minmax(0, 1.42fr) minmax(320px, 0.72fr);
+  align-items: start;
+  gap: 22px;
+}
+
+.panel-formulario,
+.panel-resumen {
+  border: 1px solid var(--color-borde);
+  background: var(--color-panel);
+  box-shadow: var(--sombra-panel);
+}
+
+.panel-formulario {
+  overflow: hidden;
+  border-radius: var(--radio-panel);
+}
+
+/* =============================================================
+   6. SECCIONES Y ENCABEZADOS DEL FORMULARIO
+   ============================================================= */
+.seccion-formulario {
+  padding: 28px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.seccion-formulario:last-child {
+  border-bottom: 0;
+}
+
+.encabezado-seccion {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-bottom: 20px;
+}
+
+.numero-paso {
+  display: grid;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 9px 9px 2px 9px;
+  background: var(--color-acento);
+  color: #0a0c0b;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.encabezado-seccion h2 {
+  margin: 1px 0 2px;
+  font-size: 1.16rem;
+  letter-spacing: -0.02em;
+}
+
+.encabezado-seccion p {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.88rem;
+}
+
+/* =============================================================
+   7. CAMPOS DE TEXTO Y SELECTORES
+   ============================================================= */
+.cuadricula-campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.campo-formulario {
+  display: grid;
+  gap: 8px;
+}
+
+.campo-formulario label {
+  color: #d6dbd4;
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.campo-formulario input,
+.campo-formulario select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #343a34;
+  border-radius: 12px;
+  outline: none;
+  background: #0d100e;
+  color: var(--color-texto);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.campo-formulario input::placeholder {
+  color: #6f776f;
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus {
+  border-color: var(--color-acento);
+  background: #10140f;
+  box-shadow: 0 0 0 4px rgba(240, 14, 14, 0.12);
+}
+
+/* =============================================================
+   8. TARJETAS DE SERVICIOS
+   ============================================================= */
+.cuadricula-servicios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* Oculta la casilla normal, pero conserva su funcionamiento. */
+.casilla-servicio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tarjeta-servicio {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 23px;
+  align-items: start;
+  gap: 12px;
+  min-height: 112px;
+  padding: 15px;
+  border: 1px solid #343a34;
+  border-radius: 14px;
+  background: var(--color-panel-secundario);
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.tarjeta-servicio:hover {
+  border-color: #566056;
+  transform: translateY(-2px);
+}
+
+.tarjeta-servicio__icono {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 12px;
+  background: #242924;
+  font-size: 1.3rem;
+}
+
+.tarjeta-servicio__nombre,
+.tarjeta-servicio__descripcion {
+  display: block;
+}
+
+.tarjeta-servicio__nombre {
+  margin-bottom: 3px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+.tarjeta-servicio__descripcion {
+  color: var(--color-texto-secundario);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.tarjeta-servicio__seleccion {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid #4b534b;
+  border-radius: 7px;
+  color: transparent;
+  font-size: 0.8rem;
+  font-weight: 950;
+}
+
+/* Estilo cuando el usuario navega con el teclado. */
+.casilla-servicio:focus-visible + .tarjeta-servicio {
+  outline: 3px solid rgba(240, 14, 14, 0.35);
+  outline-offset: 2px;
+}
+
+/* Estilos aplicados cuando la casilla está seleccionada. */
+.casilla-servicio:checked + .tarjeta-servicio {
+  border-color: var(--color-acento);
+  background: var(--color-fondo-acento);
+}
+
+.casilla-servicio:checked + .tarjeta-servicio .tarjeta-servicio__icono,
+.casilla-servicio:checked + .tarjeta-servicio .tarjeta-servicio__seleccion {
+  background: var(--color-acento);
+  color: #0a0c0b;
+}
+
+.casilla-servicio:checked + .tarjeta-servicio .tarjeta-servicio__seleccion {
+  border-color: var(--color-acento);
+}
+
+/* =============================================================
+   9. BOTONES DE SÍNTOMAS
+   ============================================================= */
+.etiqueta-sintomas {
+  margin: 20px 0 10px;
+  color: #d6dbd4;
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.contenedor-sintomas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.boton-sintoma {
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid #3b423b;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 700;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.boton-sintoma[aria-pressed="true"] {
+  border-color: var(--color-acento);
+  background: var(--color-acento);
+  color: #0a0c0b;
+}
+
+/* =============================================================
+   10. PANEL DE RESUMEN
+   ============================================================= */
+.panel-resumen {
+  position: sticky;
+  top: 94px;
+  overflow: hidden;
+  border-radius: var(--radio-panel);
+}
+
+.panel-resumen__estado {
+  padding: 25px 25px 20px;
+  background: var(--color-acento);
+  color: #0a0c0b;
+}
+
+.panel-resumen__encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.etiqueta-orientativa {
+  padding: 4px 8px;
+  border: 1px solid rgba(10, 12, 11, 0.26);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.estado-cotizacion {
+  margin: 0;
+  max-width: 380px;
+  font-size: clamp(1.55rem, 3.2vw, 2.35rem);
+  font-weight: 950;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.aviso-cotizacion {
+  margin: 10px 0 0;
+  color: rgba(10, 12, 11, 0.74);
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.panel-resumen__detalle {
+  padding: 22px 25px 25px;
+}
+
+.resumen-vehiculo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.resumen-vehiculo__icono {
+  display: grid;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 13px;
+  background: #222722;
+  font-size: 1.2rem;
+}
+
+.resumen-vehiculo strong,
+.resumen-vehiculo small {
+  display: block;
+}
+
+.resumen-vehiculo strong {
+  font-size: 0.94rem;
+}
+
+.resumen-vehiculo small {
+  color: var(--color-texto-secundario);
+  font-size: 0.78rem;
+}
+
+.titulo-lista-resumen {
+  margin: 18px 0 10px;
+  color: var(--color-texto-secundario);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lista-servicios-resumen {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-servicios-resumen li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.lista-servicios-resumen li span:last-child {
+  color: #cdd2cb;
+  font-variant-numeric: tabular-nums;
+}
+
+.mensaje-sin-servicios {
+  margin: 0;
+  padding: 14px;
+  border: 1px dashed #394039;
+  border-radius: 12px;
+  color: var(--color-texto-secundario);
+  font-size: 0.84rem;
+  text-align: center;
+}
+
+.fila-fecha-resumen {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 15px 0;
+  border-top: 1px solid var(--color-borde);
+  border-bottom: 1px solid var(--color-borde);
+  font-size: 0.86rem;
+}
+
+.fila-fecha-resumen span:first-child {
+  color: var(--color-texto-secundario);
+}
+
+.fila-fecha-resumen strong {
+  text-align: right;
+}
+
+.boton-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 54px;
+  margin-top: 19px;
+  border: 0;
+  border-radius: 14px 14px 4px 14px;
+  background: var(--color-acento);
+  color: #0a0c0b;
+  cursor: pointer;
+  font-weight: 900;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.boton-whatsapp:hover:not(:disabled) {
+  box-shadow: 0 14px 30px rgba(240, 14, 14, 0.2);
+  transform: translateY(-2px);
+}
+
+.boton-whatsapp:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.nota-privacidad {
+  margin: 10px 0 0;
+  color: #7f877f;
+  font-size: 0.74rem;
+  text-align: center;
+}
+
+/* =============================================================
+   11. MENSAJES TEMPORALES
+   ============================================================= */
+.notificacion {
+  position: fixed;
+  z-index: 40;
+  bottom: 24px;
+  left: 50%;
+  max-width: calc(100% - 32px);
+  padding: 12px 16px;
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  background: #1b201b;
+  box-shadow: var(--sombra-panel);
+  color: var(--color-texto);
+  font-size: 0.86rem;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.notificacion--visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.aviso-sin-javascript {
+  margin: 16px;
+  padding: 14px;
+  border: 1px solid var(--color-error);
+  border-radius: 12px;
+  background: #27110e;
+  color: #ffd7d1;
+}
+
+/* =============================================================
+   12. DISEÑO RESPONSIVO
+
+   Estas reglas se activan cuando la pantalla es más pequeña.
+   ============================================================= */
+@media (max-width: 900px) {
+  .contenido-principal {
+    width: min(720px, calc(100% - 32px));
+    padding-top: 32px;
+  }
+
+  .presentacion,
+  .area-cotizador {
+    grid-template-columns: 1fr;
+  }
+
+  .nota-tiempo {
+    display: none;
+  }
+
+  .panel-resumen {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .barra-superior__contenido {
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
+  .etiqueta-demo {
+    padding: 6px 9px;
+    font-size: 0.74rem;
+  }
+
+  .contenido-principal {
+    width: min(100% - 24px, 560px);
+    padding: 28px 0 44px;
+  }
+
+  h1 {
+    font-size: clamp(2.35rem, 13vw, 3.45rem);
+  }
+
+  .presentacion__descripcion {
+    margin-top: 13px;
+  }
+
+  .seccion-formulario {
+    padding: 21px 17px;
+  }
+
+  .cuadricula-campos,
+  .cuadricula-servicios {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta-servicio {
+    min-height: 94px;
+  }
+
+  .panel-resumen__estado,
+  .panel-resumen__detalle {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+
+/* Elimina animaciones si el usuario lo tiene configurado en su dispositivo. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+/* =============================================================
+   13. APARTADO DE INFORMACIÓN DE TOP SPEED GARAGE MX
+   ============================================================= */
+[hidden] {
+  display: none !important;
+}
+
+/* Separa el botón de regreso del resto del cotizador. */
+.navegacion-cotizador {
+  margin-bottom: 22px;
+}
+
+    .pagina-informacion-taller {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 32px 0 72px;
+      color: var(--color-texto, #f5f7f3);
+    }
+
+    .navegacion-informacion-taller {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .boton-volver-cotizador {
+      min-height: 44px;
+      padding: 9px 14px;
+      border: 1px solid var(--color-borde, #2a302a);
+      border-radius: 12px;
+      background: var(--color-panel, #121512);
+      color: var(--color-texto, #f5f7f3);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .boton-volver-cotizador:hover,
+    .boton-volver-cotizador:focus-visible {
+      border-color: var(--color-acento, #c7ff2f);
+      color: var(--color-acento, #c7ff2f);
+      outline: none;
+      transform: translateX(-2px);
+    }
+
+    .nombre-corto-taller {
+      color: var(--color-texto-secundario, #99a199);
+      font-size: 0.82rem;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nombre-principal-taller {
+      font-size: 0.94rem;
+      letter-spacing: -0.01em;
+    }
+
+    .presentacion-taller {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(30px, 6vw, 68px);
+      border: 1px solid var(--color-borde, #2a302a);
+      border-radius: 24px;
+      background: var(--color-panel, #121512);
+      box-shadow: var(--sombra-panel, 0 24px 70px rgba(0, 0, 0, 0.34));
+    }
+
+    .presentacion-taller::after {
+      position: absolute;
+      top: -58px;
+      right: -58px;
+      width: 170px;
+      height: 170px;
+      border: 26px solid var(--color-acento, #c7ff2f);
+      border-radius: 50%;
+      opacity: 0.15;
+      content: "";
+    }
+
+    .etiqueta-presentacion-taller {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+      color: var(--color-acento, #c7ff2f);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .etiqueta-presentacion-taller::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-acento, #c7ff2f);
+      content: "";
+    }
+
+    .presentacion-taller h1 {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.065em;
+    }
+
+    .presentacion-taller__descripcion {
+      max-width: 680px;
+      margin: 22px 0 0;
+      color: var(--color-texto-secundario, #99a199);
+      font-size: 1.04rem;
+    }
+
+    .caracteristicas-taller {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 26px;
+    }
+
+    .caracteristicas-taller span {
+      padding: 8px 12px;
+      border: 1px solid var(--color-borde, #2a302a);
+      border-radius: 999px;
+      background: var(--color-panel-secundario, #181c18);
+      color: #dfe4dd;
+      font-size: 0.82rem;
+      font-weight: 750;
+    }
+
+    /* =========================================================
+       CATÁLOGO DE SERVICIOS
+
+       Estas tarjetas aparecen después de la información del equipo.
+       El botón de cada tarjeta abre el cotizador correspondiente.
+       ========================================================= */
+    .catalogo-servicios-taller {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      margin-top: 18px;
+      padding: clamp(28px, 4vw, 44px);
+      border: 1px solid #303632;
+      border-radius: 28px;
+      background:
+        radial-gradient(
+          circle at 92% 0%,
+          rgba(240, 14, 14, 0.2),
+          transparent 31%
+        ),
+        linear-gradient(145deg, #151917 0%, #0d100f 100%);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    /* Líneas diagonales muy suaves para dar un aspecto automotriz. */
+    .catalogo-servicios-taller::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 22px,
+        rgba(255, 255, 255, 0.018) 22px,
+        rgba(255, 255, 255, 0.018) 23px
+      );
+      content: "";
+    }
+
+    .encabezado-catalogo-servicios {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+      column-gap: 16px;
+      max-width: 780px;
+      margin-bottom: 30px;
+    }
+
+    /* El número 04 queda alineado con todo el título de esta sección. */
+    .encabezado-catalogo-servicios .numero-tarjeta-taller {
+      grid-row: 1 / 4;
+      width: 52px;
+      height: 52px;
+      margin: 0;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px 16px 5px 16px;
+      background: linear-gradient(145deg, #ff2929, #c90000);
+      box-shadow: 0 12px 28px rgba(240, 14, 14, 0.23);
+      color: #ffffff;
+      font-size: 0.86rem;
+    }
+
+    .encabezado-catalogo-servicios .etiqueta-presentacion-taller {
+      grid-column: 2;
+      margin: 0 0 5px;
+    }
+
+    .encabezado-catalogo-servicios h2 {
+      grid-column: 2;
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .encabezado-catalogo-servicios > p:last-child {
+      grid-column: 2;
+      max-width: 620px;
+      margin: 10px 0 0;
+      color: var(--color-texto-secundario, #99a199);
+    }
+
+    .cuadricula-productos-taller {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      counter-reset: numero-servicio;
+    }
+
+    .producto-taller {
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      flex-direction: column;
+      min-height: 310px;
+      padding: 22px;
+      border: 1px solid #2d332f;
+      border-radius: 20px;
+      background: linear-gradient(160deg, #1b201d 0%, #121513 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+      counter-increment: numero-servicio;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    /* Número decorativo 01, 02, 03... generado automáticamente. */
+    .producto-taller::before {
+      position: absolute;
+      top: 18px;
+      right: 19px;
+      color: rgba(255, 255, 255, 0.2);
+      content: "0" counter(numero-servicio);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    /* Barra roja que se extiende cuando el usuario pasa el cursor. */
+    .producto-taller::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #f00e0e, #ff5a5a);
+      content: "";
+      transform: scaleX(0.2);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .producto-taller:hover {
+      border-color: rgba(240, 14, 14, 0.65);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.36),
+        0 0 0 1px rgba(240, 14, 14, 0.08);
+      transform: translateY(-6px);
+    }
+
+    .producto-taller:hover::after {
+      transform: scaleX(1);
+    }
+
+    .producto-taller__icono {
+      display: grid;
+      width: 56px;
+      height: 56px;
+      margin-bottom: 20px;
+      place-items: center;
+      border: 1px solid rgba(240, 14, 14, 0.38);
+      border-radius: 17px 17px 5px 17px;
+      background: linear-gradient(
+        145deg,
+        rgba(240, 14, 14, 0.2),
+        rgba(240, 14, 14, 0.06)
+      );
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+      font-size: 1.5rem;
+    }
+
+    .producto-taller__contenido {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .producto-taller h3 {
+      margin: 0 0 9px;
+      padding-right: 34px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+    }
+
+    .producto-taller p {
+      margin: 0 0 18px;
+      color: var(--color-texto-secundario, #99a199);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .producto-taller__etiqueta {
+      display: inline-flex;
+      align-self: flex-start;
+      margin-top: auto;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid rgba(240, 14, 14, 0.24);
+      border-radius: 999px;
+      background: rgba(240, 14, 14, 0.08);
+      color: #ff4b4b;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .boton-cotizar-producto {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 13px 13px 5px 13px;
+      background: linear-gradient(135deg, #f52222, #c90000);
+      box-shadow: 0 10px 22px rgba(240, 14, 14, 0.18);
+      color: #ffffff;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease, filter 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .boton-cotizar-producto::after {
+      content: "→";
+      font-size: 1.05rem;
+      transition: transform 0.2s ease;
+    }
+
+    .boton-cotizar-producto:hover,
+    .boton-cotizar-producto:focus-visible {
+      box-shadow: 0 14px 30px rgba(240, 14, 14, 0.3);
+      filter: brightness(1.08);
+      outline: 3px solid rgba(240, 14, 14, 0.22);
+      outline-offset: 3px;
+      transform: translateY(-2px);
+    }
+
+    .boton-cotizar-producto:hover::after,
+    .boton-cotizar-producto:focus-visible::after {
+      transform: translateX(4px);
+    }
+
+    .cuadricula-informacion-taller {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .tarjeta-informacion-taller {
+      padding: 26px;
+      border: 1px solid var(--color-borde, #2a302a);
+      border-radius: 20px;
+      background: var(--color-panel, #121512);
+    }
+
+    .tarjeta-informacion-taller--historia {
+      grid-column: span 7;
+    }
+
+    .tarjeta-informacion-taller--horario {
+      grid-column: span 5;
+    }
+
+    .tarjeta-informacion-taller--equipo,
+    .tarjeta-informacion-taller--ubicacion {
+      grid-column: 1 / -1;
+    }
+
+    /* La ubicación aparece después del catálogo de servicios. */
+    .tarjeta-informacion-taller--ubicacion {
+      margin-top: 18px;
+    }
+
+    .numero-tarjeta-taller {
+      display: inline-grid;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 18px;
+      place-items: center;
+      border-radius: 11px 11px 3px 11px;
+      background: var(--color-acento, #c7ff2f);
+      color: #0a0c0b;
+      font-size: 0.78rem;
+      font-weight: 950;
+    }
+
+    .tarjeta-informacion-taller h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      letter-spacing: -0.035em;
+    }
+
+    .tarjeta-informacion-taller > p {
+      margin: 0;
+      color: var(--color-texto-secundario, #99a199);
+    }
+
+    .lista-horarios {
+      display: grid;
+      gap: 0;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .lista-horarios li {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-borde, #2a302a);
+    }
+
+    .lista-horarios li:last-child {
+      border-bottom: 0;
+    }
+
+    .lista-horarios span {
+      color: var(--color-texto-secundario, #99a199);
+    }
+
+    .lista-horarios strong {
+      text-align: right;
+    }
+
+    .aviso-dato-pendiente {
+      display: inline-block;
+      margin-top: 16px !important;
+      padding: 7px 10px;
+      border: 1px dashed #596159;
+      border-radius: 9px;
+      color: #bdc5bb !important;
+      font-size: 0.78rem;
+    }
+
+    .cuadricula-equipo-taller {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .integrante-taller {
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid var(--color-borde, #2a302a);
+      border-radius: 15px;
+      background: var(--color-panel-secundario, #181c18);
+      transition: border-color 0.22s ease, box-shadow 0.22s ease,
+        transform 0.22s ease;
+    }
+
+    .integrante-taller:hover {
+      border-color: rgba(240, 14, 14, 0.52);
+      transform: translateY(-2px);
+    }
+
+    .integrante-taller--abierto {
+      grid-column: span 2;
+      border-color: rgba(240, 14, 14, 0.72);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+
+    .boton-expandir-integrante {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 30px;
+      align-items: start;
+      gap: 13px;
+      width: 100%;
+      min-height: 170px;
+      padding: 18px;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .boton-expandir-integrante:focus-visible {
+      outline: 3px solid rgba(240, 14, 14, 0.35);
+      outline-offset: -4px;
+    }
+
+    .integrante-taller__icono {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 12px;
+      background: #242924;
+      font-size: 1.2rem;
+    }
+
+    .integrante-taller__texto {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .integrante-taller__titulo {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 850;
+    }
+
+    .integrante-taller__resumen {
+      color: var(--color-texto-secundario, #99a199);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .integrante-taller__flecha {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border: 1px solid #343b36;
+      border-radius: 9px;
+      color: #dfe4dd;
+      font-size: 1.2rem;
+      line-height: 1;
+      transition: border-color 0.2s ease, color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .boton-expandir-integrante[aria-expanded="true"] .integrante-taller__flecha {
+      border-color: var(--color-acento, #f00e0e);
+      color: var(--color-acento, #f00e0e);
+      transform: rotate(180deg);
+    }
+
+    .detalle-integrante {
+      display: grid;
+      grid-template-columns: minmax(125px, 0.72fr) minmax(0, 1.35fr);
+      gap: 18px;
+      margin: 0 18px 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--color-borde, #2a302a);
+      animation: mostrar-detalle-integrante 0.24s ease both;
+    }
+
+    .detalle-integrante__imagen {
+      width: 100%;
+      height: 170px;
+      border-radius: 13px;
+      object-fit: cover;
+      object-position: center;
+      background: #242924;
+    }
+
+    .detalle-integrante h3 {
+      margin: 0 0 7px;
+      font-size: 1rem;
+    }
+
+    .detalle-integrante p {
+      margin: 0;
+      color: var(--color-texto-secundario, #99a199);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .detalle-integrante ul {
+      display: grid;
+      gap: 5px;
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: #d8ddd6;
+      font-size: 0.8rem;
+    }
+
+    @keyframes mostrar-detalle-integrante {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .contenido-ubicacion-taller {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      margin-top: 12px;
+    }
+
+    .ubicacion-principal-taller {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.22rem;
+      font-weight: 850;
+    }
+
+    .ubicacion-secundaria-taller {
+      color: var(--color-texto-secundario, #99a199);
+    }
+
+    .boton-ir-cotizador {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 13px 13px 4px 13px;
+      background: var(--color-acento, #c7ff2f);
+      color: #0a0c0b;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    @media (max-width: 850px) {
+      .pagina-informacion-taller {
+        width: min(720px, calc(100% - 32px));
+      }
+
+      .cuadricula-productos-taller {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tarjeta-informacion-taller--historia,
+      .tarjeta-informacion-taller--horario {
+        grid-column: 1 / -1;
+      }
+
+      .cuadricula-equipo-taller {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .pagina-informacion-taller {
+        width: min(100% - 24px, 520px);
+        padding-top: 22px;
+      }
+
+      .nombre-corto-taller {
+        display: none;
+      }
+
+      .presentacion-taller,
+      .catalogo-servicios-taller,
+      .tarjeta-informacion-taller {
+        padding: 21px;
+      }
+
+      .encabezado-catalogo-servicios {
+        grid-template-columns: 44px minmax(0, 1fr);
+        column-gap: 12px;
+        margin-bottom: 23px;
+      }
+
+      .encabezado-catalogo-servicios .numero-tarjeta-taller {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px 13px 4px 13px;
+      }
+
+      .encabezado-catalogo-servicios h2 {
+        font-size: clamp(1.65rem, 9vw, 2.2rem);
+      }
+
+      .encabezado-catalogo-servicios > p:last-child {
+        margin-top: 8px;
+      }
+
+      .cuadricula-productos-taller {
+        grid-template-columns: 1fr;
+      }
+
+      .producto-taller {
+        min-height: 0;
+        padding: 20px;
+      }
+
+      .cuadricula-equipo-taller,
+      .contenido-ubicacion-taller {
+        grid-template-columns: 1fr;
+      }
+
+      .integrante-taller--abierto {
+        grid-column: 1;
+      }
+
+      .boton-expandir-integrante {
+        min-height: 0;
+      }
+
+      .detalle-integrante {
+        grid-template-columns: 1fr;
+      }
+
+      .detalle-integrante__imagen {
+        height: 210px;
+      }
+
+      .lista-horarios li {
+        display: grid;
+        gap: 2px;
+      }
+
+      .lista-horarios strong {
+        text-align: left;
+      }
+    }
+  .presentacion-taller__imagen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.12;
+  }
+  /* =========================================
+   TARJETA DE UBICACIÓN Y MAPA
+========================================= */
+
+.tarjeta-ubicacion {
+    width: 100%;
+    padding: 24px;
+    background: linear-gradient(145deg, #181818, #101010);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+.encabezado-ubicacion {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.icono-ubicacion {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    font-size: 23px;
+    background: rgba(229, 30, 37, 0.14);
+    border: 1px solid rgba(229, 30, 37, 0.35);
+    border-radius: 14px;
+}
+
+.etiqueta-ubicacion {
+    margin: 0 0 4px;
+    color: #e51e25;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.encabezado-ubicacion h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 22px;
+}
+
+.direccion-taller {
+    margin: 0 0 18px;
+    color: #bcbcbc;
+    font-size: 15px;
+}
+
+.contenedor-mapa {
+    width: 100%;
+    height: 300px;
+    border: 2px solid rgba(229, 30, 37, 0.4);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.mapa-taller {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(20%) contrast(105%);
+}
+
+.boton-abrir-mapa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px 20px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    background: #e51e25;
+    border-radius: 12px;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.boton-abrir-mapa:hover {
+    background: #ff343b;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .tarjeta-ubicacion {
+        padding: 18px;
+    }
+
+    .contenedor-mapa {
+        height: 240px;
+    }
+}
+@media (min-width: 901px) {
+  .cuadricula-equipo-taller {
+    align-items: start;
+  }
+
+  .integrante-taller--abierto {
+    grid-column: span 1;
+  }
+
+  .detalle-integrante {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0 14px 14px;
+    padding-top: 14px;
+  }
+
+  .detalle-integrante__imagen {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+.campo-otro-sintoma {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.campo-otro-sintoma label {
+  color: #d6dbd4;
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.campo-otro-sintoma textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 13px 14px;
+  border: 1px solid #343a34;
+  border-radius: 12px;
+  background: #0d100e;
+  color: #ffffff;
+  font: inherit;
+  resize: vertical;
+  outline: none;
+}
+
+.campo-otro-sintoma textarea::placeholder {
+  color: #6f776f;
+}
+
+.campo-otro-sintoma textarea:focus {
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 4px rgba(240, 14, 14, 0.12);
+}

@@ -1,0 +1,812 @@
+
+<html lang="es-MX">
+
+<head>
+  <!-- =========================================================
+       CONFIGURACIÓN GENERAL DE LA PÁGINA
+       Esta parte no se muestra dentro de la página.
+       ========================================================= -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="Información, servicios y cotizador interactivo de Top Speed Garage MX."
+  >
+  <meta name="theme-color" content="#0a0c0b">
+
+  <title>TopSpeed Garage MX | Taller y cotizador</title>
+
+  <!-- El diseño se encuentra en un archivo separado. -->
+  <link rel="stylesheet" href="estilos.css">
+
+  <!-- Todo el diseño se encuentra ahora en estilos.css. -->
+
+  <!--
+    La palabra "defer" hace que JavaScript espere a que el HTML
+    termine de cargarse antes de comenzar a trabajar.
+  -->
+  <script src="cotizador.js" defer></script>
+</head>
+
+<body>
+  <!-- =========================================================
+       1. ENCABEZADO
+       Muestra el nombre del proyecto y una etiqueta de demostración.
+       ========================================================= -->
+  <header class="barra-superior" id="encabezado-principal">
+    <div class="barra-superior__contenido">
+      <div class="marca-sitio" aria-label="TopSpeed">
+        <span class="marca-sitio__logotipo" aria-hidden="true">T</span>
+        <span>TopSpeed</span>
+      </div>
+
+      <!-- Es solamente una etiqueta informativa; no realiza ninguna acción. -->
+      <span class="etiqueta-demo">Taller Automotriz</span>
+    </div>
+  </header>
+
+  <!-- El cotizador comienza oculto. Se abre desde un servicio de la página principal. -->
+  <main class="contenido-principal" id="pagina-cotizador" hidden>
+    <div class="navegacion-cotizador">
+      <button
+        class="boton-volver-cotizador"
+        id="boton-volver-informacion-desde-cotizador"
+        type="button"
+      >
+        ← Volver a la información
+      </button>
+    </div>
+
+    <!-- =======================================================
+         2. PRESENTACIÓN BREVE
+         Explica qué puede hacer el visitante en esta página.
+         ======================================================= -->
+    <section class="presentacion" aria-labelledby="titulo-pagina">
+      <div>
+        <p class="texto-superior">Solicitud de servicio</p>
+        <h1 id="titulo-pagina" tabindex="-1">Tu auto habla.<br>Vamos a escucharlo.</h1>
+        <p class="presentacion__descripcion">
+          Selecciona tu vehículo y los servicios que necesita. Enviaremos la
+          información al taller para preparar una cotización personalizada.
+        </p>
+      </div>
+
+      <p class="nota-tiempo">
+        <strong>Menos de 2 minutos</strong><br>
+        Solicitud directa por WhatsApp
+      </p>
+    </section>
+    <!--
+      Esta cuadrícula contiene dos columnas:
+      1. El formulario que llena el cliente.
+      2. El resumen que JavaScript actualiza automáticamente.
+    -->
+    <div class="area-cotizador">
+      <!-- =====================================================
+           3. FORMULARIO DE COTIZACIÓN
+           ===================================================== -->
+      <form class="panel-formulario" id="formulario-cotizacion" novalidate>
+        <!-- PASO 1: DATOS DEL VEHÍCULO -->
+        <section class="seccion-formulario" id="seccion-datos-vehiculo" aria-labelledby="titulo-datos-vehiculo">
+          <div class="encabezado-seccion">
+            <span class="numero-paso" aria-hidden="true">1</span>
+            <div>
+              <h2 id="titulo-datos-vehiculo">Cuéntanos qué manejas</h2>
+              <p>Esto ayuda al taller a identificar el servicio y las posibles refacciones.</p>
+            </div>
+          </div>
+
+          <div class="cuadricula-campos">
+            <div class="campo-formulario">
+              <label for="marca-vehiculo">Marca</label>
+              <select id="marca-vehiculo" name="marcaVehiculo" required>
+                <option value="">Selecciona una marca</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="Ford">Ford</option>
+                <option value="Honda">Honda</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="Kia">Kia</option>
+                <option value="Mazda">Mazda</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Otra marca">Otra marca</option>
+              </select>
+            </div>
+
+            <div class="campo-formulario">
+              <label for="modelo-vehiculo">Modelo</label>
+              <input
+                id="modelo-vehiculo"
+                name="modeloVehiculo"
+                type="text"
+                placeholder="Ejemplo: Versa"
+                autocomplete="off"
+                required
+              >
+            </div>
+
+            <div class="campo-formulario">
+              <label for="anio-vehiculo">Año</label>
+              <!-- JavaScript agrega automáticamente los años disponibles. -->
+              <select id="anio-vehiculo" name="anioVehiculo" required>
+                <option value="">Selecciona el año</option>
+              </select>
+            </div>
+
+            <div class="campo-formulario">
+              <label for="tipo-vehiculo">Tipo de vehículo</label>
+              <select id="tipo-vehiculo" name="tipoVehiculo">
+                <option value="compacto">Compacto / Sedán</option>
+                <option value="suv">SUV</option>
+                <option value="pickup">Pickup</option>
+                <option value="van">Van</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- PASO 2: SERVICIOS Y SÍNTOMAS -->
+        <section class="seccion-formulario" id="seccion-servicios" aria-labelledby="titulo-servicios">
+          <div class="encabezado-seccion">
+            <span class="numero-paso" aria-hidden="true">2</span>
+            <div>
+              <h2 id="titulo-servicios">¿Qué necesita tu auto?</h2>
+              <p>Puedes seleccionar más de un servicio.</p>
+            </div>
+          </div>
+
+          <!-- Cada casilla usa data-nombre para mostrar el servicio en el resumen. -->
+          <div class="cuadricula-servicios" id="contenedor-servicios">
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-escaner-profesional"
+                name="servicios"
+                type="checkbox"
+                value="escaner-profesional"
+                data-nombre="Escáner profesional"
+              >
+              <label class="tarjeta-servicio" for="servicio-escaner-profesional">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">🖥️</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Escáner profesional</span>
+                  <span class="tarjeta-servicio__descripcion">Diagnóstico electrónico del vehículo.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+
+            <div>
+             <input
+               class="casilla-servicio"
+                id="servicio-afinaciones"
+                 name="servicios"
+               type="checkbox"
+              value="afinaciones"
+             data-nombre="Servicios de afinación"
+           >
+
+             <label class="tarjeta-servicio" for="servicio-afinaciones">
+           <span class="tarjeta-servicio__icono" aria-hidden="true">🚗</span>
+
+           <span>
+               <span class="tarjeta-servicio__nombre">
+                   Servicios de afinación
+               </span>
+
+            <span class="tarjeta-servicio__descripcion">
+               Servicio de afinación mayor o menor.
+            </span>
+          </span>
+
+         <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+      </label>
+    </div>
+
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-reparacion-motor"
+                name="servicios"
+                type="checkbox"
+                value="reparacion-motor"
+                data-nombre="Reparaciones de motor"
+              >
+              <label class="tarjeta-servicio" for="servicio-reparacion-motor">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">⚙️</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Reparaciones de motor</span>
+                  <span class="tarjeta-servicio__descripcion">Revisión y reparación interna del motor.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-fallos-motor"
+                name="servicios"
+                type="checkbox"
+                value="fallos-motor"
+                data-nombre="Diagnóstico de fallos de motor"
+              >
+              <label class="tarjeta-servicio" for="servicio-fallos-motor">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">🚨</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Fallos de motor</span>
+                  <span class="tarjeta-servicio__descripcion">Detección de ruidos, testigos y pérdida de potencia.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-transmision"
+                name="servicios"
+                type="checkbox"
+                value="transmision"
+                data-nombre="Fallos de transmisión automática y estándar"
+              >
+              <label class="tarjeta-servicio" for="servicio-transmision">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">⚙️</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Transmisión automática y estándar</span>
+                  <span class="tarjeta-servicio__descripcion">Diagnóstico de cambios, ruidos y funcionamiento.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-cuerpo-aceleracion"
+                name="servicios"
+                type="checkbox"
+                value="cuerpo-aceleracion"
+                data-nombre="Programación de cuerpo de aceleración"
+              >
+              <label class="tarjeta-servicio" for="servicio-cuerpo-aceleracion">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">📟</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Programación de cuerpo de aceleración</span>
+                  <span class="tarjeta-servicio__descripcion">Ajuste y aprendizaje electrónico del sistema.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-suspension-frenos"
+                name="servicios"
+                type="checkbox"
+                value="suspension-frenos"
+                data-nombre="Suspensión y frenos en general"
+              >
+              <label class="tarjeta-servicio" for="servicio-suspension-frenos">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">🛞</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Suspensión y frenos en general</span>
+                  <span class="tarjeta-servicio__descripcion">Inspección y reparación de seguridad y manejo.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+
+            <div>
+              <input
+                class="casilla-servicio"
+                id="servicio-clutch"
+                name="servicios"
+                type="checkbox"
+                value="clutch"
+                data-nombre="Servicio de clutch"
+              >
+              <label class="tarjeta-servicio" for="servicio-clutch">
+                <span class="tarjeta-servicio__icono" aria-hidden="true">🕹️</span>
+                <span>
+                  <span class="tarjeta-servicio__nombre">Clutch</span>
+                  <span class="tarjeta-servicio__descripcion">Diagnóstico, ajuste y reemplazo del sistema.</span>
+                </span>
+                <span class="tarjeta-servicio__seleccion" aria-hidden="true">✓</span>
+              </label>
+            </div>
+          </div>
+
+          <p class="etiqueta-sintomas">¿Notas alguno de estos síntomas?</p>
+
+          <!--
+            aria-pressed indica si un botón de síntoma está seleccionado.
+            JavaScript cambia el valor entre "true" y "false".
+          -->
+          <div class="contenedor-sintomas" id="contenedor-sintomas" aria-label="Síntomas del vehículo">
+            <button class="boton-sintoma" type="button" aria-pressed="false">Ruido extraño</button>
+            <button class="boton-sintoma" type="button" aria-pressed="false">Vibración</button>
+            <button class="boton-sintoma" type="button" aria-pressed="false">Testigo encendido</button>
+            <button class="boton-sintoma" type="button" aria-pressed="false">Fuga</button>
+            <button class="boton-sintoma" type="button" aria-pressed="false">No enciende</button>
+            <button class="boton-sintoma" type="button" aria-pressed="false">Se calienta</button>
+          </div>
+        </section>
+
+        <div class="campo-otro-sintoma">
+         <label for="otro-sintoma">Otro problema o síntoma</label>
+
+         <textarea
+         id="otro-sintoma"
+         name="otroSintoma"
+           rows="3"
+             maxlength="300"
+             placeholder="Describe qué le sucede al vehículo..."
+             ></textarea>
+           </div>
+
+
+        <!-- PASO 3: CLIENTE Y FECHA -->
+        <section class="seccion-formulario" id="seccion-fecha-cita" aria-labelledby="titulo-fecha-cita">
+          <div class="encabezado-seccion">
+            <span class="numero-paso" aria-hidden="true">3</span>
+            <div>
+              <h2 id="titulo-fecha-cita">¿Cuándo te gustaría llevarlo?</h2>
+              <p>El taller confirmará la disponibilidad por WhatsApp.</p>
+            </div>
+          </div>
+
+          <div class="cuadricula-campos">
+            <div class="campo-formulario">
+              <label for="nombre-cliente">Tu nombre</label>
+              <input
+                id="nombre-cliente"
+                name="nombreCliente"
+                type="text"
+                placeholder="Ejemplo: Jesús"
+                autocomplete="name"
+              >
+            </div>
+
+            <div class="campo-formulario">
+              <label for="fecha-cita">Fecha preferida</label>
+              <input id="fecha-cita" name="fechaCita" type="date">
+            </div>
+          </div>
+        </section>
+      </form>
+
+      <!-- =====================================================
+           4. RESUMEN DE LA COTIZACIÓN
+           JavaScript cambia todos los textos de esta sección.
+           ===================================================== -->
+      <aside class="panel-resumen" id="resumen-cotizacion" aria-labelledby="titulo-resumen">
+        <div class="panel-resumen__estado">
+          <div class="panel-resumen__encabezado">
+            <span id="titulo-resumen">Tu solicitud</span>
+            <span class="etiqueta-orientativa">Sin precio fijo</span>
+          </div>
+
+          <p class="estado-cotizacion" id="estado-cotizacion" aria-live="polite">Selecciona un servicio</p>
+          <p class="aviso-cotizacion">
+            El costo se confirma después de revisar el vehículo y las refacciones necesarias.
+          </p>
+        </div>
+
+        <div class="panel-resumen__detalle">
+          <div class="resumen-vehiculo">
+            <span class="resumen-vehiculo__icono" aria-hidden="true">🚗</span>
+            <span>
+              <strong id="nombre-vehiculo-resumen">Agrega tu vehículo</strong>
+              <small id="detalles-vehiculo-resumen">Marca, modelo y año</small>
+            </span>
+          </div>
+
+          <p class="titulo-lista-resumen">Servicios seleccionados</p>
+
+          <!-- JavaScript agrega aquí un elemento <li> por cada servicio. -->
+          <ul class="lista-servicios-resumen" id="lista-servicios-seleccionados" aria-live="polite"></ul>
+
+          <p class="mensaje-sin-servicios" id="mensaje-sin-servicios">
+            Selecciona al menos un servicio para continuar.
+          </p>
+
+          <div class="fila-fecha-resumen">
+            <span>Fecha preferida</span>
+            <strong id="fecha-cita-resumen">Por definir</strong>
+          </div>
+
+          <button class="boton-whatsapp" id="boton-enviar-whatsapp" type="button" disabled>
+            <span aria-hidden="true">💬</span>
+            Enviar solicitud por WhatsApp
+          </button>
+
+          <p class="nota-privacidad">La solicitud no genera ningún cargo.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       5. INFORMACIÓN DEL TALLER TOP SPEED
+
+       Este es el primer apartado que aparece cuando se abre la página.
+       Desde sus servicios, el usuario puede pasar al cotizador.
+
+       IMPORTANTE: Los horarios, nombres y dirección exacta no venían en
+       el archivo original. Por eso están marcados como datos pendientes
+       para evitar publicar información inventada.
+       ========================================================= -->
+  <section
+    class="pagina-informacion-taller"
+    id="pagina-informacion-taller"
+    aria-labelledby="titulo-informacion-taller"
+  >
+    <nav class="navegacion-informacion-taller" aria-label="Navegación de información del taller">
+      <span class="nombre-corto-taller"></span>
+      <strong class="nombre-principal-taller"></strong>
+    </nav>
+
+    <section class="presentacion-taller">
+      <img src="img/top.png" alt="Vista del taller Top Speed Garage MX en Cancún" class="presentacion-taller__imagen">
+      <p class="etiqueta-presentacion-taller">Conoce nuestro taller</p>
+      <h1 id="titulo-informacion-taller" tabindex="-1">Top Speed<br>Garage MX</h1>
+      <p class="presentacion-taller__descripcion">
+        Taller automotriz en Cancún dedicado al mantenimiento preventivo y
+        correctivo. Trabajamos con atención directa, diagnóstico claro y
+        soluciones pensadas para mantener tu vehículo en buenas condiciones.
+      </p>
+
+      <div class="caracteristicas-taller" aria-label="Características del taller">
+        <span>Diagnóstico claro</span>
+        <span>Cotización antes de trabajar</span>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         SERVICIOS DISPONIBLES
+
+         Cada botón contiene data-servicio-id. JavaScript usa ese dato
+         para abrir el cotizador y marcar el servicio correspondiente.
+         ======================================================= -->
+    
+    <div class="cuadricula-informacion-taller">
+      <!-- QUIÉNES SOMOS -->
+      <article class="tarjeta-informacion-taller tarjeta-informacion-taller--historia">
+        <span class="numero-tarjeta-taller" aria-hidden="true">01</span>
+        <h2>Quiénes somos</h2>
+        <p>
+          En Top Speed Garage MX realizamos diagnóstico con escáner profesional,
+          reparaciones de motor, atención de fallos de transmisión, programación
+          de cuerpo de aceleración, clutch, suspensión y frenos. Cada vehículo se
+          revisa antes de preparar una cotización personalizada.
+        </p>
+      </article>
+
+      <!-- HORARIOS: reemplaza estos textos cuando tengas el horario real. -->
+      <article class="tarjeta-informacion-taller tarjeta-informacion-taller--horario">
+        <span class="numero-tarjeta-taller" aria-hidden="true">02</span>
+        <h2>Horarios de atención</h2>
+        <ul class="lista-horarios">
+          <li><span>Lunes a viernes</span><strong>9:00AM A 6:00PM</strong></li>
+          <li><span>Sábado</span><strong>9:00AM A 3:00PM</strong></li>
+          <li><span>Domingo</span><strong>Descansamos </strong></li>
+        </ul>
+        <!-- <p class="aviso-dato-pendiente">Actualiza esta sección con el horario real.</p> -->
+      </article>
+
+      <!--
+        EQUIPO DESPLEGABLE
+        Al presionar una tarjeta, JavaScript muestra su fotografía e información.
+        Para usar fotos reales, agrégalas dentro de la carpeta img con los nombres
+        escritos en cada atributo src. Mientras no existan, se mostrará top.png.
+      -->
+      <article class="tarjeta-informacion-taller tarjeta-informacion-taller--equipo">
+        <span class="numero-tarjeta-taller" aria-hidden="true">03</span>
+        <h2>Nuestro equipo</h2>
+        <p>Presiona una tarjeta para conocer las funciones de cada área.</p>
+
+        <div class="cuadricula-equipo-taller">
+          <article class="integrante-taller">
+            <button
+              class="boton-expandir-integrante"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalle-encargado-taller"
+            >
+              <span class="integrante-taller__icono" aria-hidden="true">🧑‍🔧</span>
+              <span class="integrante-taller__texto">
+                <span class="integrante-taller__titulo">Encargado del taller</span>
+                <span class="integrante-taller__resumen">Coordina los trabajos y revisa los diagnósticos.</span>
+              </span>
+              <span class="integrante-taller__flecha" aria-hidden="true">⌄</span>
+            </button>
+
+            <div class="detalle-integrante" id="detalle-encargado-taller" hidden>
+              <img
+                class="detalle-integrante__imagen"
+                src="img/adri.png"
+                data-imagen-respaldo="img/top.png"
+                alt="Encargado del taller Top Speed Garage MX"
+                loading="lazy"
+              >
+              <div>
+                <h3>Encargado del taller</h3>
+                <p>Supervisa cada trabajo, valida el diagnóstico y mantiene informado al cliente.</p>
+                <ul>
+                  <li>Organización de los servicios.</li>
+                  <li>Revisión de diagnósticos.</li>
+                  <li>Seguimiento de cada vehículo.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="integrante-taller">
+            <button
+              class="boton-expandir-integrante"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalle-mecanica-general"
+            >
+              <span class="integrante-taller__icono" aria-hidden="true">🔧</span>
+              <span class="integrante-taller__texto">
+                <span class="integrante-taller__titulo">Mecánica general</span>
+                <span class="integrante-taller__resumen">Mantenimiento y reparación de componentes.</span>
+              </span>
+              <span class="integrante-taller__flecha" aria-hidden="true">⌄</span>
+            </button>
+
+            <div class="detalle-integrante" id="detalle-mecanica-general" hidden>
+              <img
+                class="detalle-integrante__imagen"
+                src="img/mecanica.png"
+                data-imagen-respaldo="img/top.png"
+                alt="Área de mecánica general de Top Speed Garage MX"
+                loading="lazy"
+              >
+              <div>
+                <h3>Mecánica general</h3>
+                <p>Atiende mantenimientos preventivos, fallos de motor, clutch y reparaciones generales.</p>
+                <ul>
+                  <li>Reparaciones de motor.</li>
+                  <li>Servicio y diagnóstico de clutch.</li>
+                  <li>Mantenimiento preventivo y correctivo.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="integrante-taller">
+            <button
+              class="boton-expandir-integrante"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalle-frenos-suspension"
+            >
+              <span class="integrante-taller__icono" aria-hidden="true">🛞</span>
+              <span class="integrante-taller__texto">
+                <span class="integrante-taller__titulo">Frenos y suspensión</span>
+                <span class="integrante-taller__resumen">Revisión de seguridad, dirección y manejo.</span>
+              </span>
+              <span class="integrante-taller__flecha" aria-hidden="true">⌄</span>
+            </button>
+
+            <div class="detalle-integrante" id="detalle-frenos-suspension" hidden>
+              <img
+                class="detalle-integrante__imagen"
+                src="img/frenos.png"
+                data-imagen-respaldo="img/top.png"
+                alt="Servicio de frenos y suspensión de Top Speed Garage MX"
+                loading="lazy"
+              >
+              <div>
+                <h3>Frenos y suspensión</h3>
+                <p>Inspecciona y repara componentes importantes para la estabilidad y el frenado.</p>
+                <ul>
+                  <li>Balatas, discos y sistema de frenado.</li>
+                  <li>Amortiguadores y componentes de suspensión.</li>
+                  <li>Revisión de ruidos y vibraciones.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="integrante-taller">
+            <button
+              class="boton-expandir-integrante"
+              type="button"
+              aria-expanded="false"
+              aria-controls="detalle-atencion-cotizaciones"
+            >
+              <span class="integrante-taller__icono" aria-hidden="true">💬</span>
+              <span class="integrante-taller__texto">
+                <span class="integrante-taller__titulo">Atención y cotizaciones</span>
+                <span class="integrante-taller__resumen">Agenda citas y comunica el avance del servicio.</span>
+              </span>
+              <span class="integrante-taller__flecha" aria-hidden="true">⌄</span>
+            </button>
+
+            <div class="detalle-integrante" id="detalle-atencion-cotizaciones" hidden>
+              <img
+                class="detalle-integrante__imagen"
+                src="img/cotizaciones.png"
+                data-imagen-respaldo="img/top.png"
+                alt="Atención y cotizaciones de Top Speed Garage MX"
+                loading="lazy"
+              >
+              <div>
+                <h3>Atención y cotizaciones</h3>
+                <p>Recibe la información del vehículo y prepara una cotización después de la revisión.</p>
+                <ul>
+                  <li>Agenda y confirmación de citas.</li>
+                  <li>Cotización personalizada.</li>
+                  <li>Seguimiento por WhatsApp.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </article>
+    </div>
+
+    <!-- =======================================================
+         6. CATÁLOGO DE SERVICIOS
+
+         Esta sección permanece dentro del ancho principal para
+         que las tarjetas no se peguen a las orillas de la pantalla.
+         ======================================================= -->
+  <section class="catalogo-servicios-taller" aria-labelledby="titulo-catalogo-servicios">
+      <div class="encabezado-catalogo-servicios">
+        <span class="numero-tarjeta-taller" aria-hidden="true">04</span>
+        <p class="etiqueta-presentacion-taller">Servicios</p>
+        <h2 id="titulo-catalogo-servicios">Elige el servicio que necesitas</h2>
+        <p>Presiona “Solicitar cotización”. El costo se confirma después de revisar el vehículo.</p>
+      </div>
+
+      <div class="cuadricula-productos-taller">
+        <article class="producto-taller">
+          <span class="producto-taller__icono" aria-hidden="true">🖥️</span>
+          <div class="producto-taller__contenido">
+            <h3>Escáner profesional</h3>
+            <p>Lectura de códigos y parámetros para localizar fallos electrónicos.</p>
+            <span class="producto-taller__etiqueta">Cotización personalizada</span>
+          </div>
+          <button class="boton-cotizar-producto" type="button" data-servicio-id="servicio-escaner-profesional">
+            Solicitar cotización
+          </button>
+        </article>
+
+        <article class="producto-taller">
+          <span class="producto-taller__icono" aria-hidden="true">⚙️</span>
+          <div class="producto-taller__contenido">
+            <h3>Reparaciones de motor</h3>
+            <p>Diagnóstico y reparación de componentes internos y externos del motor.</p>
+            <span class="producto-taller__etiqueta">Cotización personalizada</span>
+          </div>
+          <button class="boton-cotizar-producto" type="button" data-servicio-id="servicio-reparacion-motor">
+            Solicitar cotización
+          </button>
+        </article>
+
+        <article class="producto-taller">
+          <span class="producto-taller__icono" aria-hidden="true">🚨</span>
+          <div class="producto-taller__contenido">
+            <h3>Fallos de motor</h3>
+            <p>Revisión de testigos, ruidos, pérdida de potencia y funcionamiento irregular.</p>
+            <span class="producto-taller__etiqueta">Cotización personalizada</span>
+          </div>
+          <button class="boton-cotizar-producto" type="button" data-servicio-id="servicio-fallos-motor">
+            Solicitar cotización
+          </button>
+        </article>
+
+        <article class="producto-taller">
+          <span class="producto-taller__icono" aria-hidden="true">⚙️</span>
+          <div class="producto-taller__contenido">
+            <h3>Transmisión automática y estándar</h3>
+            <p>Diagnóstico de cambios bruscos, ruidos, fugas y fallos de funcionamiento.</p>
+            <span class="producto-taller__etiqueta">Cotización personalizada</span>
+          </div>
+          <button class="boton-cotizar-producto" type="button" data-servicio-id="servicio-transmision">
+            Solicitar cotización
+          </button>
+        </article>
+
+        <article class="producto-taller">
+          <span class="producto-taller__icono" aria-hidden="true">📟</span>
+          <div class="producto-taller__contenido">
+            <h3>Programación de cuerpo de aceleración</h3>
+            <p>Ajuste, aprendizaje y programación electrónica para una respuesta correcta.</p>
+            <span class="producto-taller__etiqueta">Cotización personalizada</span>
+          </div>
+          <button class="boton-cotizar-producto" type="button" data-servicio-id="servicio-cuerpo-aceleracion">
+            Solicitar cotización
+          </button>
+        </article>
+
+        <article class="producto-taller">
+          <span class="producto-taller__icono" aria-hidden="true">🛞</span>
+          <div class="producto-taller__contenido">
+            <h3>Suspensión y frenos en general</h3>
+            <p>Revisión y reparación de componentes de frenado, dirección y suspensión.</p>
+            <span class="producto-taller__etiqueta">Cotización personalizada</span>
+          </div>
+          <button class="boton-cotizar-producto" type="button" data-servicio-id="servicio-suspension-frenos">
+            Solicitar cotización
+          </button>
+        </article>
+
+        <article class="producto-taller">
+       <span class="producto-taller__icono" aria-hidden="true">🚗</span>
+
+      <div class="producto-taller__contenido">
+    <h3>Afinaciones</h3>
+    <p>Servicios de afinación mayor o menor.</p>
+    <span class="producto-taller__etiqueta">
+      Cotización personalizada
+    </span>
+       </div>
+
+         <button
+    class="boton-cotizar-producto"
+    type="button"
+    data-servicio-id="servicio-afinaciones"
+      >
+    Solicitar cotización
+  </button>
+      </article>
+      </div>
+    </section>
+<!-- UBICACIÓN DEL TALLER -->
+<article class="tarjeta-ubicacion">
+    <div class="encabezado-ubicacion">
+        <span class="icono-ubicacion">📍</span>
+
+        <div>
+            <p class="etiqueta-ubicacion">VISÍTANOS</p>
+            <h3>Ubicación</h3>
+        </div>
+    </div>
+
+    <p class="direccion-taller">
+        Región 100, Cancún, Quintana Roo
+    </p>
+
+    <div class="contenedor-mapa">
+        <iframe
+            class="mapa-taller"
+             src="https://www.google.com/maps?q=21.1555705,-86.8696464&z=18&output=embed"
+            title="Ubicación de Top Speed Garage MX"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <a
+        class="boton-abrir-mapa"
+        href="https://www.google.com/maps/search/?api=1&query=Región+100,+Cancún,+Quintana+Roo,+México"
+        target="_blank"
+        rel="noopener noreferrer">
+        Abrir en Google Maps
+    </a>
+</article>
+    
+  </section>
+
+
+  <!-- Mensaje temporal que aparece cuando falta llenar un dato. -->
+  <div class="notificacion" id="notificacion-usuario" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <p class="aviso-sin-javascript">Activa JavaScript para utilizar el cotizador.</p>
+  </noscript>
+
+  <!-- Toda la lógica se encuentra en el archivo cotizador.js. -->
+
+</body>
+
+</html>
